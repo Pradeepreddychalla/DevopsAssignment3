@@ -3,7 +3,7 @@ pipeline {
     
     // This part ensures Jenkins finds your Java installation
     tools {
-        jdk 'Java25' // Use the exact name you gave it in Step 1
+        jdk 'Java25' 
     }
 
     stages {
@@ -15,7 +15,7 @@ pipeline {
         
         stage('Build & Test') {
             steps {
-                // We use bat for Windows. gradlew will now find Java.
+                
                 bat 'gradlew clean build'
             }
         }
