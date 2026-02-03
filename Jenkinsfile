@@ -1,18 +1,21 @@
 pipeline {
     agent any
+    
+    // This part ensures Jenkins finds your Java installation
+    tools {
+        jdk 'Java25' // Use the exact name you gave it in Step 1
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                // This automatically checks out code from the SCM (GitHub) configured in the job
                 checkout scm
             }
         }
         
         stage('Build & Test') {
             steps {
-                // Run Gradle clean and build (includes tests)
-                // Use 'bat' for Windows Jenkins, use 'sh' if your Jenkins is on Linux
+                // We use bat for Windows. gradlew will now find Java.
                 bat 'gradlew clean build'
             }
         }
@@ -20,8 +23,8 @@ pipeline {
     
     post {
         success {
-            // Archive the JAR file generated in build/libs
-            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+            // This satisfies the "Archive Artifact" requirement of Task 2
+            archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
         }
     }
 }
